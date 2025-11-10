@@ -28,12 +28,17 @@ The project is fully containerized using Docker and supports automated testing a
 ```
 .
 ├── app/
-│   ├── main.py
-│   ├── models.py
-│   ├── schemas.py
-│   ├── routers/
-│   │   └── flight.py
-│   └── db.py
+│   ├── api/
+│       └── routers/
+│           └── flights_router.py 
+│   ├── models/
+│       └── flight_model.py
+│   ├── schemas/
+│       └── flight_schema.py
+│   ├── services/
+│       └── flight_service.py 
+│   ├── repositories/
+│       └── flight_repository.py
 ├── tests/
 │   └── test_flight.py
 ├── requirements.txt
