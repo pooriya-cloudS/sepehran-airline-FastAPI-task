@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, text
 from typing import List, Optional
 import uuid
 
+
 class FlightRepository:
     """
     Repository class for managing Flight data.
@@ -19,10 +20,12 @@ class FlightRepository:
         """
         flight_data = flight_data.copy()
         flight_data["id"] = str(uuid.uuid4())  # Generate UUID string
-        existing = self.get_by_number(flight_data['flight_number'])
+        existing = self.get_by_number(flight_data["flight_number"])
 
         if existing:
-            raise ValueError(f"Flight with number {flight_data['flight_number']} already exists")
+            raise ValueError(
+                f"Flight with number {flight_data['flight_number']} already exists"
+            )
 
         query = """
         INSERT INTO flights (id, flight_number, origin, destination, departure_time, arrival_time, is_active)
@@ -42,7 +45,7 @@ class FlightRepository:
         origin: Optional[str] = None,
         destination: Optional[str] = None,
         is_active: Optional[bool] = True,
-        sort: bool = False
+        sort: bool = False,
     ) -> List[dict]:
         base_query = "SELECT * FROM flights WHERE 1=1"
         params = {}
@@ -70,7 +73,11 @@ class FlightRepository:
     # ================= Get by Flight Number =================
     def get_by_number(self, flight_number: str) -> Optional[dict]:
         query = "SELECT * FROM flights WHERE flight_number = :flight_number"
-        result = self.db.execute(text(query), {"flight_number": flight_number}).mappings().first()
+        result = (
+            self.db.execute(text(query), {"flight_number": flight_number})
+            .mappings()
+            .first()
+        )
         return dict(result) if result else None
 
     # ================= Update =================
@@ -130,7 +137,7 @@ flight = {
     "origin": "Tehran",
     "destination": "Mashhad",
     "departure_time": "2025-11-10 09:00:00",
-    "arrival_time": "2025-11-10 11:00:00"
+    "arrival_time": "2025-11-10 11:00:00",
 }
 
 created = repo.create(flight)
