@@ -5,7 +5,7 @@ from app.api.routers.flights_router import router as flights_router
 app = FastAPI(
     title="Sepehran Airline API",
     description="Flight management system with CRUD operations and soft deletion.",
-    version="1.0.0"
+    version="1.0.0",
 )
 
 # Include flight routes

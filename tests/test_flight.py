@@ -34,7 +34,11 @@ def setup_test_database():
     # Drop if exists
     with root_engine.connect() as conn:
         conn.execute(text(f"DROP DATABASE IF EXISTS {TEST_DB_NAME}"))
-        conn.execute(text(f"CREATE DATABASE {TEST_DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"))
+        conn.execute(
+            text(
+                f"CREATE DATABASE {TEST_DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+            )
+        )
 
     # Create tables
     Base.metadata.create_all(bind=engine)
@@ -72,7 +76,7 @@ def test_create_flight_success(client):
         "origin": "Tehran",
         "destination": "Istanbul",
         "departure_time": "2025-11-12T08:00:00",
-        "arrival_time": "2025-11-12T10:30:00"
+        "arrival_time": "2025-11-12T10:30:00",
     }
 
     response = client.post("/flights/", json=flight_data)
@@ -87,13 +91,16 @@ def test_create_flight_success(client):
 # ===================================================
 def test_get_paginated_sorted_flights(client):
     for i in range(1, 4):
-        client.post("/flights/", json={
-            "flight_number": f"IR10{i}",
-            "origin": "Tehran",
-            "destination": "Mashhad",
-            "departure_time": f"2025-11-12T0{i}:00:00",
-            "arrival_time": f"2025-11-12T1{i}:00:00"
-        })
+        client.post(
+            "/flights/",
+            json={
+                "flight_number": f"IR10{i}",
+                "origin": "Tehran",
+                "destination": "Mashhad",
+                "departure_time": f"2025-11-12T0{i}:00:00",
+                "arrival_time": f"2025-11-12T1{i}:00:00",
+            },
+        )
 
     response = client.get("/flights/?page=1&limit=2&sort_by=departure_time")
     assert response.status_code == 200
@@ -108,20 +115,26 @@ def test_get_paginated_sorted_flights(client):
 # Scenario: Filter flights by origin
 # ===================================================
 def test_filter_flights_by_origin(client):
-    client.post("/flights/", json={
-        "flight_number": "IR200",
-        "origin": "Tehran",
-        "destination": "Shiraz",
-        "departure_time": "2025-11-13T08:00:00",
-        "arrival_time": "2025-11-13T10:00:00"
-    })
-    client.post("/flights/", json={
-        "flight_number": "IR201",
-        "origin": "Tabriz",
-        "destination": "Tehran",
-        "departure_time": "2025-11-13T11:00:00",
-        "arrival_time": "2025-11-13T13:00:00"
-    })
+    client.post(
+        "/flights/",
+        json={
+            "flight_number": "IR200",
+            "origin": "Tehran",
+            "destination": "Shiraz",
+            "departure_time": "2025-11-13T08:00:00",
+            "arrival_time": "2025-11-13T10:00:00",
+        },
+    )
+    client.post(
+        "/flights/",
+        json={
+            "flight_number": "IR201",
+            "origin": "Tabriz",
+            "destination": "Tehran",
+            "departure_time": "2025-11-13T11:00:00",
+            "arrival_time": "2025-11-13T13:00:00",
+        },
+    )
 
     response = client.get("/flights/?origin=Tehran")
     assert response.status_code == 200
@@ -133,13 +146,16 @@ def test_filter_flights_by_origin(client):
 # Scenario: Update an existing flight record
 # ===================================================
 def test_update_flight(client):
-    client.post("/flights/", json={
-        "flight_number": "IR123",
-        "origin": "Tehran",
-        "destination": "Istanbul",
-        "departure_time": "2025-11-12T08:00:00",
-        "arrival_time": "2025-11-12T10:30:00"
-    })
+    client.post(
+        "/flights/",
+        json={
+            "flight_number": "IR123",
+            "origin": "Tehran",
+            "destination": "Istanbul",
+            "departure_time": "2025-11-12T08:00:00",
+            "arrival_time": "2025-11-12T10:30:00",
+        },
+    )
 
     response = client.put("/flights/IR123", json={"destination": "Ankara"})
     assert response.status_code == 200
@@ -152,13 +168,16 @@ def test_update_flight(client):
 # Scenario: Deactivate a flight instead of deleting
 # ===================================================
 def test_deactivate_flight(client):
-    client.post("/flights/", json={
-        "flight_number": "IR123",
-        "origin": "Tehran",
-        "destination": "Istanbul",
-        "departure_time": "2025-11-12T08:00:00",
-        "arrival_time": "2025-11-12T10:30:00"
-    })
+    client.post(
+        "/flights/",
+        json={
+            "flight_number": "IR123",
+            "origin": "Tehran",
+            "destination": "Istanbul",
+            "departure_time": "2025-11-12T08:00:00",
+            "arrival_time": "2025-11-12T10:30:00",
+        },
+    )
 
     response = client.patch("/flights/IR123/deactivate")
     assert response.status_code == 200
@@ -174,10 +193,7 @@ def test_deactivate_flight(client):
 # Scenario: Invalid flight creation (validation error)
 # ===================================================
 def test_invalid_flight_creation(client):
-    invalid_data = {
-        "flight_number": "IR999",
-        "origin": "Tehran"
-    }
+    invalid_data = {"flight_number": "IR999", "origin": "Tehran"}
     response = client.post("/flights/", json=invalid_data)
     assert response.status_code == 422
     data = response.json()
