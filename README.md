@@ -56,7 +56,7 @@ git clone https://github.com/pooriya-cloudS/sepehran-airline-FastAPI-task.git
 cd sepehran-airline-FastAPI-task
 ```
 
-**2. Environment Variables **
+**2. Environment Variables**
 
 - For secure project we use .env file that upload on github secret variable and you can added that with your openion 
 
