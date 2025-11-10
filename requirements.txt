@@ -3,7 +3,9 @@ annotated-types==0.7.0
 anyio==4.8.0
 black==25.11.0
 certifi==2025.10.5
+cffi==2.0.0
 click==8.1.8
+cryptography==46.0.3
 fastapi==0.115.11
 greenlet==3.1.1
 h11==0.16.0
@@ -19,6 +21,7 @@ pathspec==0.12.1
 platformdirs==4.5.0
 pluggy==1.6.0
 psycopg2-binary==2.9.10
+pycparser==2.23
 pydantic==2.10.6
 pydantic_core==2.27.2
 Pygments==2.19.2
