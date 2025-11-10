@@ -4,7 +4,9 @@ import os
 import dotenv
 
 dotenv.load_dotenv()
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://appuser:apppassword@127.0.0.1:3306/mydb")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL", "mysql+pymysql://appuser:apppassword@127.0.0.1:3306/mydb"
+)
 
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
