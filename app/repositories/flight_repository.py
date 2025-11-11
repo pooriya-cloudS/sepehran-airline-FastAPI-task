@@ -20,12 +20,6 @@ class FlightRepository:
         """
         flight_data = flight_data.copy()
         flight_data["id"] = str(uuid.uuid4())  # Generate UUID string
-        existing = self.get_by_number(flight_data["flight_number"])
-
-        if existing:
-            raise ValueError(
-                f"Flight with number {flight_data['flight_number']} already exists"
-            )
 
         query = """
         INSERT INTO flights (id, flight_number, origin, destination, departure_time, arrival_time, is_active)
@@ -108,6 +102,10 @@ class FlightRepository:
         return self.deactivate(flight_number)
 
 
+"""
+this just for my ensuring about repository pattern and in 
+real project must be remove that but this is just hiring task
+
 # ====== Database setup ======
 DATABASE_URL = "mysql+pymysql://appuser1:MyPass123!@127.0.0.1:3306/mydb"
 engine = create_engine(DATABASE_URL, echo=True, future=True)
@@ -116,15 +114,15 @@ db = SessionLocal()
 
 # ====== Create table if not exists ======
 create_table_query = """
-CREATE TABLE IF NOT EXISTS flights (
-    id VARCHAR(36) PRIMARY KEY,
-    flight_number VARCHAR(10),
-    origin VARCHAR(50),
-    destination VARCHAR(50),
-    departure_time DATETIME,
-    arrival_time DATETIME,
-    is_active TINYINT(1) DEFAULT 1
-)
+# CREATE TABLE IF NOT EXISTS flights (
+#     id VARCHAR(36) PRIMARY KEY,
+#     flight_number VARCHAR(10),
+#     origin VARCHAR(50),
+#     destination VARCHAR(50),
+#     departure_time DATETIME,
+#     arrival_time DATETIME,
+#     is_active TINYINT(1) DEFAULT 1
+# )
 """
 db.execute(text(create_table_query))
 db.commit()
@@ -154,3 +152,4 @@ print("Updated Flight:", updated_flight)
 
 deactivated_flight = repo.deactivate("IR101")
 print("Deactivated Flight:", deactivated_flight)
+"""

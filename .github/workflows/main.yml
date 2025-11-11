@@ -41,6 +41,4 @@ jobs:
       run: black --check app tests
 
     - name: Run tests with pytest
-      env:
-        DATABASE_URL: mysql+mysqlconnector://root:password@localhost:3306/mydb
       run: pytest tests --maxfail=1 --disable-warnings -v
