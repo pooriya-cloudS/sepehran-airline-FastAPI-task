@@ -14,7 +14,7 @@ so that file be empty but that must have shape like this form
 #    depends_on:
 #      - db
 #    environment:
-#      - DATABASE_URL=mysql+mysqlconnector://root:password@db:3306/mydb
+#      - DATABASE_URL=mysql+pymysql://root:password@db:3306/mydb
 #
 #  db:
 #    image: mysql:8.0
