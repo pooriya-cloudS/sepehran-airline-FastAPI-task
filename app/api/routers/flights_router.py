@@ -21,6 +21,7 @@ def create_flight(flight: FlightCreate, db=Depends(get_db)):
         result = service.create_flight(flight.dict())
         return {
             "status": "success",
+            "code": 201,
             "message": "Flight created successfully",
             "data": result,
         }
@@ -41,7 +42,7 @@ def list_flights(
     service = create_service(db)
 
     result = service.get_flights(page, limit, sort_by, sort_order, origin, destination)
-    return {"status": "success", "data": result}
+    return {"status": "success", "code": 200, "data": result}
 
 
 @router.get("/{flight_number}")
@@ -51,7 +52,7 @@ def get_flight(flight_number: str, db=Depends(get_db)):
     result = service.get_flight_by_number(flight_number)
     if not result:
         raise HTTPException(status_code=404, detail="Flight not found")
-    return {"status": "success", "data": result}
+    return {"status": "success", "code": 200, "data": result}
 
 
 @router.put("/{flight_number}")
@@ -61,6 +62,7 @@ def update_flight(flight_number: str, flight: FlightUpdate, db=Depends(get_db)):
     result = service.update_flight(flight_number, flight.dict(exclude_unset=True))
     return {
         "status": "success",
+        "code": 200,
         "message": "Flight updated successfully",
         "data": result,
     }
@@ -73,6 +75,7 @@ def deactivate_flight(flight_number: str, db=Depends(get_db)):
     result = service.deactivate_flight(flight_number)
     return {
         "status": "success",
+        "code": 204,
         "message": "Flight deactivated successfully",
         "data": result,
     }
