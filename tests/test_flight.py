@@ -15,6 +15,11 @@ from app.api.routers.flights_router import (
 # ======================================================
 
 # SQLite database (stored locally for testing only)
+"""
+this is not regular way to config
+but now we use that for make project
+faster and easier to test and easy to defining
+"""
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 
 # Create engine and session factory
